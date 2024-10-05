@@ -9,12 +9,11 @@
         <img #imageElement [src]="image" alt="Selected Image" style="display:none;" />
         <canvas #canvas></canvas>
         <div class="crop-box" [ngStyle]="{ 
-                 'top.px': cropBox.y, 
-                 'left.px': cropBox.x, 
-                 'width.px': cropBox.width, 
-                 'height.px': cropBox.height 
-             }">
-        </div>
+            'top.px': cropBox.y, 
+            'left.px': cropBox.x, 
+            'width.px': cropBox.width, 
+            'height.px': cropBox.height 
+        }"></div>
     </div>
     <div *ngIf="croppedImage" class="cropped-image-preview">
         <h3>Cropped Image Preview</h3>

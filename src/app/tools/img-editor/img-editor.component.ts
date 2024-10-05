@@ -16,7 +16,6 @@ export class ImgEditorComponent {
 
   // Define the crop box dimensions and position
   cropBox = { x: 50, y: 50, width: 200, height: 150 }; // Change these values as needed
-
   @ViewChild('canvas') canvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('imageElement') imageElement!: ElementRef<HTMLImageElement>;
 
@@ -25,16 +24,24 @@ export class ImgEditorComponent {
   ngOnInit() {
     this.imageService.currentImage.subscribe((image) => {
       this.image = image;
+      if (this.image) {
+        this.drawImage(); // Draw the image when it is available
+      }
     });
   }
 
   ngAfterViewInit() {
-    this.drawImage();
+    // No need to call drawImage here, it will be called in ngOnInit when image is set
   }
 
   drawImage() {
     const img = this.imageElement.nativeElement;
-    const ctx = this.canvas.nativeElement.getContext('2d')!;
+    const ctx = this.canvas.nativeElement.getContext('2d');
+
+    if (!ctx) {
+      console.error('Canvas context not available');
+      return;
+    }
 
     img.onload = () => {
       this.canvas.nativeElement.width = img.width;
@@ -43,7 +50,7 @@ export class ImgEditorComponent {
       this.drawCropBox(ctx); // Draw the crop box
     };
 
-    img.src = this.image!;
+    img.src = this.image!; // Ensure image is set before this point
   }
 
   drawCropBox(ctx: CanvasRenderingContext2D) {
@@ -58,7 +65,12 @@ export class ImgEditorComponent {
   }
 
   cropImage() {
-    const ctx = this.canvas.nativeElement.getContext('2d')!;
+    const ctx = this.canvas.nativeElement.getContext('2d');
+
+    if (!ctx) {
+      console.error('Canvas context not available for cropping');
+      return;
+    }
 
     // Get the image data from the crop box
     const imageData = ctx.getImageData(
@@ -72,7 +84,12 @@ export class ImgEditorComponent {
     const croppedCanvas = document.createElement('canvas');
     croppedCanvas.width = this.cropBox.width;
     croppedCanvas.height = this.cropBox.height;
-    const croppedCtx = croppedCanvas.getContext('2d')!;
+    const croppedCtx = croppedCanvas.getContext('2d');
+
+    if (!croppedCtx) {
+      console.error('Cropped canvas context not available');
+      return;
+    }
 
     // Put the cropped image data on the new canvas
     croppedCtx.putImageData(imageData, 0, 0);
@@ -82,15 +99,18 @@ export class ImgEditorComponent {
   }
 
   clearCanvas() {
-    const ctx = this.canvas.nativeElement.getContext('2d')!;
-    ctx.clearRect(
-      0,
-      0,
-      this.canvas.nativeElement.width,
-      this.canvas.nativeElement.height
-    );
-    this.drawImage();
-    this.croppedImage = null;
+    const ctx = this.canvas.nativeElement.getContext('2d');
+
+    if (ctx) {
+      ctx.clearRect(
+        0,
+        0,
+        this.canvas.nativeElement.width,
+        this.canvas.nativeElement.height
+      );
+      this.drawImage(); // Redraw the image after clearing
+    }
+    this.croppedImage = null; // Clear the cropped image
   }
 
   backButton() {
