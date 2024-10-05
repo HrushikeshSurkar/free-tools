@@ -1,0 +1,11 @@
+<div class="drop-zone-wrap" *ngIf="!toggleEditor">
+    <ngx-dropzone (change)="onSelect($event)" style="justify-content: center">
+        <ngx-dropzone-label>Drop files here or click to select files...</ngx-dropzone-label>
+        <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+        </ngx-dropzone-preview>
+    </ngx-dropzone>
+    <div class="button-wrap">
+        <button (click)="navigateToEditor()">Edit Image</button>
+    </div>
+</div>

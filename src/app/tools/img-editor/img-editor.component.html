@@ -1,0 +1,28 @@
+<div *ngIf="image; else noImage" class="image-editor">
+    <h2>Edit Image</h2>
+    <div class="tools-section">
+        <button (click)="clearCanvas()">Reset</button>
+        <button (click)="cropImage()" [disabled]="!croppedImage">Done</button>
+        <button (click)="backButton()">Back</button>
+    </div>
+    <div class="image-editing-section">
+        <img #imageElement [src]="image" alt="Selected Image" style="display:none;" />
+        <canvas #canvas></canvas>
+        <div class="crop-box" [ngStyle]="{ 
+                 'top.px': cropBox.y, 
+                 'left.px': cropBox.x, 
+                 'width.px': cropBox.width, 
+                 'height.px': cropBox.height 
+             }">
+        </div>
+    </div>
+    <div *ngIf="croppedImage" class="cropped-image-preview">
+        <h3>Cropped Image Preview</h3>
+        <img [src]="croppedImage" alt="Cropped Image" style="max-width: 100%; height: auto;" />
+    </div>
+</div>
+
+<ng-template #noImage>
+    <p>No image selected for editing. Please go back to the drop zone to select an image.</p>
+    <button type="button" class="button-style" (click)="backButton()">Back</button>
+</ng-template>

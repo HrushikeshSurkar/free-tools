@@ -1,0 +1,63 @@
+.button-style {
+    background-color: greenyellow;
+    border: none;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px 0 rgba(21, 22, 39, 0.2);
+    margin: 20px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgb(43, 69, 3);
+        color: white;
+    }
+}
+
+.image-editor {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .tools-section {
+        display: flex;
+        justify-content: center;
+
+        button {
+            @extend .button-style;
+            margin-right: 10px;
+        }
+    }
+
+    .image-editing-section {
+        padding: 3% 16%;
+        border: 1px solid black;
+        width: 20rem;
+        margin: 50px auto;
+        display: flex;
+        justify-content: center;
+        position: relative;
+
+        img {
+            width: 40%;
+            display: none;
+        }
+
+        canvas {
+            width: 100%;
+            height: auto;
+            border: 1px solid black;
+        }
+
+        .crop-box {
+            position: absolute;
+            border: 2px dashed red;
+            pointer-events: none;
+        }
+    }
+
+    .cropped-image-preview {
+        text-align: center;
+        margin-top: 20px;
+    }
+}
